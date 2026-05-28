@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import { useProducts } from '../hooks/useProduct'
+import { useProducts } from '../hooks/useProduct';
+import { useNavigate } from "react-router-dom";
+
 
 const Home = () => {
   const products = useSelector(state => state.product.showproduct) || [];
   const user = useSelector(state => state.auth.user);
   const { handleGetAllPProducts } = useProducts();
+  
+  const navigate = useNavigate();
 
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -99,10 +103,11 @@ const Home = () => {
               const currency = product.price?.currency ?? product.priceCurrency ?? "INR";
 
               return (
-                <div
-                  key={product._id}
-                  className="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer group"
-                >
+              <div
+  key={product._id}
+  onClick={() => navigate(`/product/${product._id}`)}
+  className="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow cursor-pointer group"
+>
                   {/* Image */}
                   <div className="relative aspect-[3/4] bg-stone-100 overflow-hidden">
                     {img ? (
@@ -120,7 +125,9 @@ const Home = () => {
                     )}
 
                     {/* Multi-image badge */}
-                    {product.images?.length > 1 && (
+             
+                    {product.images?.length > 1 &&
+                     (
                       <span className="absolute top-2 right-2 bg-black/50 text-white text-[10px] font-medium px-1.5 py-0.5 rounded-full">
                         +{product.images.length - 1}
                       </span>

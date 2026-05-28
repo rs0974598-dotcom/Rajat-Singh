@@ -89,3 +89,30 @@ export async function getAllpProducts(req, res) {
     });
   }
 }
+export async function getAllProductDetails(req, res) {
+  try {
+    const { id } = req.params;
+
+    const product = await productModel.findById(id);
+
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+        success: false,
+      });
+    }
+
+    // ✅ IMPORTANT: response missing tha
+    return res.status(200).json({
+      message: "Product fetched successfully",
+      success: true,
+      product,
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+      success: false,
+    });
+  }
+}
