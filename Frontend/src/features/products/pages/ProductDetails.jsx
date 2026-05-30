@@ -218,6 +218,7 @@ const ProductDetails = () => {
 
   return (
     <div className="h-screen bg-white font-sans flex flex-col overflow-hidden">
+      <style>{`* { scrollbar-width: none !important; -ms-overflow-style: none !important; } *::-webkit-scrollbar { display: none !important; }`}</style>
 
       {/* ── Header ── */}
       <header className="border-b border-stone-100 px-6 py-4 flex items-center gap-3 flex-shrink-0">
