@@ -101,8 +101,9 @@ export async function getAllProductDetails(req, res) {
         success: false,
       });
     }
-
-    // ✅ IMPORTANT: response missing tha
+    console.log(product);
+    
+   
     return res.status(200).json({
       message: "Product fetched successfully",
       success: true,
@@ -115,4 +116,83 @@ export async function getAllProductDetails(req, res) {
       success: false,
     });
   }
+}
+
+export async function addProductVariants(req, res) {
+
+  try {
+
+    const productId = req.params.productId;
+
+    const product = await productModel.findOne({
+      _id: productId,
+      seller: req.user._id
+    });
+
+    if (!product) {
+      return res.status(404).json({
+        message: "Product not found",
+        success: false
+      });
+    }
+
+    const files = req.files;
+    const images = [];
+
+    if (files?.length > 0) {
+
+      await Promise.all(
+
+        files.map(async (file) => {
+
+          const image = await uploadFile({
+            buffer: file.buffer,
+            fileName: file.originalname
+          });
+
+          images.push(image);
+
+        })
+
+      );
+
+    }
+
+    const price = req.body.priceAmount;
+    const stock = req.body.stock;
+
+    const attribute = JSON.parse(
+      req.body.attribute || "{}"
+    );
+    console.log(product,images,price,stock,attribute); 
+           product.varaints.push({
+                     images,
+            price: {
+                amount: Number(price || product.price.amount),
+                currency: req.body.currency || product.price.currency
+              },
+                stock: Number(stock),
+                 attribute
+              });
+
+await product.save();
+    
+    return res.status(200).json({
+      success: true,
+      images,
+      price,
+      stock,
+      attribute
+    });
+    } catch (error) {
+  console.log("ERROR =>", error);
+
+  return res.status(500).json({
+    success: false,
+    message: error.message,
+    error
+  });
+
+}
+
 }

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+
 import { useProducts } from "../hooks/useProduct";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function timeAgo(dateStr) {
   const diff = Math.floor((Date.now() - new Date(dateStr)) / 1000);
@@ -23,7 +25,8 @@ const Dashboard = () => {
 
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [view, setView] = useState("grid"); // "grid" | "list"
+  const [view, setView] = useState("grid"); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     handleGetAllProducts().finally(() => setLoading(false));
@@ -139,7 +142,12 @@ const Dashboard = () => {
             {filtered.map((product) => {
               const img = product.images?.[0]?.url;
               return (
-                <div key={product._id} className="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                <div
+  onClick={() =>
+    navigate(`/seller/product/${product._id}`)
+  }
+
+                key={product._id} className="bg-white rounded-2xl border border-stone-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
                   {/* Image */}
                   <div className="relative aspect-[4/3] bg-stone-100">
                     {img ? (

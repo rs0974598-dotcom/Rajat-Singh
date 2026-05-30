@@ -4,13 +4,15 @@ import { useProducts } from "../hooks/useProduct";
 
 const ProductDetails = () => {
   const { productId } = useParams();
-  const { handleGetProductById } = useProducts();
+
   const navigate = useNavigate();
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeImg, setActiveImg] = useState(0);
+  
 
+  const { handleGetProductById } = useProducts();
   useEffect(() => {
     if (!productId) return;
     const fetchProduct = async () => {
