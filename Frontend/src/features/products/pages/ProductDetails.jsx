@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useProducts } from "../hooks/useProduct";
+import { useCart } from "../../cart/hook/useCart";
 
 /* ─── Utility: safely read a Map or plain object ─── */
 const readAttr = (attr) => {
@@ -48,13 +49,21 @@ const getAvailableValues = (variants, key, selectedAttrs) => {
 
 /* ─── Find exactly matching variant ─── */
 const findMatchingVariant = (variants, selectedAttrs) => {
-  if (!Object.keys(selectedAttrs).length) return null;
-  return (
-    (variants || []).find((v) => {
-      const a = readAttr(v.attribute || v.attributes);
-      return Object.entries(selectedAttrs).every(([k, val]) => a[k] === val);
-    }) || null
-  );
+  console.log("selectedAttrs:", selectedAttrs);
+
+  return (variants || []).find((v) => {
+    const a = readAttr(v.attribute || v.attributes);
+
+    console.log("variant attrs:", a);
+
+    const matched = Object.entries(selectedAttrs).every(
+      ([k, val]) => a[k] === val
+    );
+
+    console.log("matched:", matched);
+
+    return matched;
+  });
 };
 
 /* ════════════════════════════════════════════
@@ -135,8 +144,10 @@ const ProductDetails = () => {
   const [loading,      setLoading]      = useState(true);
   const [activeImg,    setActiveImg]    = useState(0);
   const [selectedAttrs, setSelectedAttrs] = useState({});
+  
 
   const { handleGetProductById } = useProducts();
+  const {handleAddItems} = useCart();
 
   useEffect(() => {
     if (!productId) return;
@@ -460,6 +471,16 @@ const ProductDetails = () => {
               <button
                 disabled={selectionComplete && !matchedVariant}
                 className="flex-1 border-2 border-stone-900 text-stone-900 text-sm font-semibold py-3 rounded-2xl hover:bg-stone-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+onClick={() => {
+  console.log("productId:", product?._id);
+  console.log("matchedVariant:", matchedVariant);
+  console.log("variantId:", matchedVariant?._id);
+
+  handleAddItems({
+    productId: product?._id,
+    variantId: matchedVariant?._id,
+  });
+}}
               >
                 Add to Cart
               </button>
