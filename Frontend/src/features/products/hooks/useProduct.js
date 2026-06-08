@@ -37,21 +37,21 @@ export const useProducts = () => {
         dispatch(setshowproduct(data.products));
         return data.products;
     }
+    
     async function handleGetProductById(productId)
     {
         const data = await getAllProductById(productId);
         return data
     }
-  async function handleAddProdcutVaraints(
-  productId,
-  newProductVaraints
-) {
+
+
+  async function handleAddProdcutVariants( productId,newProductVariants) {
   const data = await addProductVariants(
     productId,
-    newProductVaraints
+    newProductVariants
   );
 
   return data;
 }
-    return { handleCreateProducts, handleGetAllProducts,handleGetAllPProducts ,handleGetProductById,handleAddProdcutVaraints};
+    return { handleCreateProducts, handleGetAllProducts,handleGetAllPProducts ,handleGetProductById,handleAddProdcutVariants};
 };

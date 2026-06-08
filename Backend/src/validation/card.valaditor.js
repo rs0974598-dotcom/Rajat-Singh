@@ -14,3 +14,14 @@ export const cartValidation = [
         .isInt({ min: 1 })
         .withMessage("Quantity must be a number greater than 0")
 ];
+
+export const validateIncrementCartItemsQuantity=[
+    param("productId")
+      .isMongoId()
+      .withMessage("Invalid product ID"),
+    
+    param("variantId")
+        .optional()
+        .isMongoId()
+        .withMessage("Invalid variant ID"),
+]

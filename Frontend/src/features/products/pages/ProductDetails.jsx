@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useProducts } from "../hooks/useProduct";
 import { useCart } from "../../cart/hook/useCart";
 
+
+
 /* ─── Utility: safely read a Map or plain object ─── */
 const readAttr = (attr) => {
   if (!attr) return {};
@@ -147,7 +149,9 @@ const ProductDetails = () => {
   
 
   const { handleGetProductById } = useProducts();
-  const {handleAddItems} = useCart();
+  const {handleAddItems} = useCart()
+
+
 
   useEffect(() => {
     if (!productId) return;
@@ -232,7 +236,7 @@ const ProductDetails = () => {
       <style>{`* { scrollbar-width: none !important; -ms-overflow-style: none !important; } *::-webkit-scrollbar { display: none !important; }`}</style>
 
       {/* ── Header ── */}
-      <header className="border-b border-stone-100 px-6 py-4 flex items-center gap-3 flex-shrink-0">
+      {/* <header className="border-b border-stone-100 px-6 py-4 flex items-center gap-3 flex-shrink-0">
         <button
           onClick={() => navigate(-1)}
           className="w-8 h-8 flex items-center justify-center rounded-xl border border-stone-200 hover:bg-stone-50 transition-colors"
@@ -253,7 +257,7 @@ const ProductDetails = () => {
         <span className="text-sm text-stone-400 truncate max-w-xs">
           {product?.title || "Product Detail"}
         </span>
-      </header>
+      </header> */}
 
       {/* ── Loading ── */}
       {loading && (
@@ -480,6 +484,7 @@ onClick={() => {
     productId: product?._id,
     variantId: matchedVariant?._id,
   });
+    navigate("/cart");
 }}
               >
                 Add to Cart

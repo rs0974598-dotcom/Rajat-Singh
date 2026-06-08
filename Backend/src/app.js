@@ -12,6 +12,8 @@ import productRouter from "./routes/product.route.js";
 import cartRouter from "./routes/cart.route.js"
 
 
+
+
 dotenv.config();
 
 const app = express();
@@ -50,6 +52,7 @@ app.use(morgan("dev"));
 // ROUTES
 app.use("/api/auth", authRouter);
 app.use("/api/products", productRouter);
-app.use("/api/card",cartRouter)
+app.use("/api/cart",cartRouter)
+
 
 export default app;

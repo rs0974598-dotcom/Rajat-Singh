@@ -22,7 +22,7 @@ const SellerProductDetails = () => {
   });
 
   const { productId } = useParams();
-  const { handleGetProductById, handleAddProdcutVaraints } = useProducts();
+  const { handleGetProductById, handleAddProdcutVariants } = useProducts();
 
   async function fetchProductDetails() {
     setLoading(true);
@@ -69,7 +69,7 @@ const SellerProductDetails = () => {
 
     setLocalVariants([ ...localVariants, variantToSave ]);
     setIsAddingVariant(false);
-    await handleAddProdcutVaraints(productId, variantToSave);
+    await handleAddProdcutVariants(productId, variantToSave);
 
     setAttributeInputs([ { key: '', value: '' } ]);
     setNewVariant({ images: [], stock: 0, attributes: {}, price: { amount: '', currency: 'INR' } });

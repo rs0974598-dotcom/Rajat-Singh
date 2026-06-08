@@ -125,7 +125,7 @@ export async function addProductVariants(req, res) {
     const productId = req.params.productId;
 
     const product = await productModel.findOne({
-      _id: productId,
+      _id: productId,  
       seller: req.user._id
     });
 
@@ -165,7 +165,7 @@ export async function addProductVariants(req, res) {
       req.body.attribute || "{}"
     );
     console.log(product,images,price,stock,attribute); 
-           product.varaints.push({
+           product.variants.push({
                      images,
             price: {
                 amount: Number(price || product.price.amount),
@@ -196,3 +196,5 @@ await product.save();
 }
 
 }
+
+
